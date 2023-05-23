@@ -5,11 +5,11 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identify
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 api = Blueprint('api', __name__)
-app= Flask(___name___)
-bcrypt=Bcrypt(api)
+app= Flask(__name__)
+bcrypt=Bcrypt(app)
 
 
 @api.route('/hello', methods=['POST', 'GET'])
@@ -31,8 +31,7 @@ def user_create():
             "msg":"Email registrado"
         }) , 400
     
-    secure_password = bcrypt.generate_password_hash(
-        data["password"], rounds=None).decode("utf-8")
+    secure_password = bcrypt.generate_password_hash(data["password"], rounds=None).decode("utf-8")
     new_user = User(email=data["email"],
                     password=secure_password, is_active=True)
     db.session.add(new_user)
